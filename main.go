@@ -8,6 +8,38 @@ import (
 	"time"
 )
 
+type Entry struct {
+	Name string
+	Surname string
+	Year int
+}
+
+func zeroS() Entry {
+	return Entry{}
+}
+
+func initS(N, S string, Y int) Entry {
+	if Y < 2000 {
+		return Entry{Name: N, Surname: S, Year: 2000}
+	}
+
+	return Entry{Name: N, Surname: S, Year: Y}
+}
+
+func zeroPtoS() *Entry {
+	t := &Entry{}
+
+	return t
+}
+
+func initPtoS(N, S string, Y int) *Entry {
+	if len(S) == 0 {
+		return &Entry{Name: N, Surname: "Unknown", Year: Y}
+	}
+
+	return &Entry{Name: N, Surname: S, Year: Y}
+}
+
 func myPrint(start, finish int) {
 	for i := start; i <= finish; i++ {
 		fmt.Print(i, " ")
@@ -31,6 +63,12 @@ func formattedError(a, b int) error {
 		return fmt.Errorf("a %d and b %d. UserID: %d", a, b, os.Getuid())
 	}
 		return nil
+}
+
+func PrintSlice[T any](s []T) {
+	for _, v := range s {
+		fmt.Println(v)
+	}
 }
 
 func main() {
@@ -182,4 +220,39 @@ func main() {
 	}
 
 	time.Sleep(time.Second)
+
+	aMap := map[string]int{}
+	//aMap = nil
+
+	if aMap == nil {
+		fmt.Println("nil map!")
+
+		aMap = map[string]int{}
+	}
+
+	fmt.Println("aMap:", aMap)
+
+	anotherMap := make(map[string]string)
+	anotherMap["123"] = "456"
+	anotherMap["key"] = "a value"
+
+	for key, value := range anotherMap {
+		fmt.Println("key:", key, "value:", value)
+	}
+
+	// structs
+	s1 := zeroS()
+	p1 := zeroPtoS()
+
+	fmt.Println("s1:", s1, "p1:", *p1)
+
+	s2 := initS("Mihalis", "Tsoukalos", 2024)
+	p2 := initPtoS("Mihalis", "Tsoukalos", 2024)
+
+	fmt.Println("s2:", s2, "p2:", *p2)
+	fmt.Println("Year:", s1.Year, s2.Year, p1.Year, p2.Year)
+
+	p3 := new(Entry)
+
+	fmt.Println("ps:", p3)
 }
